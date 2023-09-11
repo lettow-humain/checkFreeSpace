@@ -6,6 +6,12 @@ jobs:
     name: Build my artifact
     runs-on: ubuntu-latest
     steps:
+
+      - name: Check free space 1
+        run: |
+          echo "Free space:"
+          df -h
+
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
@@ -15,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build
+      - name: Check free space 2
         run: |
           echo "Free space:"
           df -h
