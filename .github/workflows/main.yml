@@ -11,13 +11,9 @@ jobs:
         run: |
           echo "Free space:"
           df -h
-
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet
+          
       - name: Checkout
         uses: actions/checkout@v2
 
