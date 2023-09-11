@@ -1,23 +1,17 @@
-name: My build action requiring more space
+name: Check if I can free space
 on: push
 
 jobs:
   build:
-    name: Build my artifact
+    name: Foo
     runs-on: ubuntu-latest
     steps:
 
-      - name: Check free space 1
+      - name: Bar
         run: |
           echo "Free space:"
           df -h
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/dotnet
-          
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Check free space 2
-        run: |
           echo "Free space:"
           df -h
