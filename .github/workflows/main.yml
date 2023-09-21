@@ -16,12 +16,11 @@ jobs:
     - name: checkout with git lfs
       run: git lfs checkout
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: Get current date
-      id: date
+      id: dateid
       run: echo "name=date::$(date +'%Y_%m_%d_%H_%M')" >> $GITHUB_OUTPUT
     - name: Print stored date
-      run: echo ${{ steps.date.outputs.date }}
-     
+      run: echo "Stored date ${{ steps.dateid.outputs.date }}"
