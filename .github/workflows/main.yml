@@ -21,6 +21,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Get current date
       id: dateid
-      run: echo "name=date::$(date +'%Y_%m_%d_%H_%M')" >> $GITHUB_OUTPUT
+      run: echo "date=$(date +'%Y_%m_%d_%H_%M')" >> $GITHUB_OUTPUT
     - name: Print stored date
       run: echo "Stored date ${{ steps.dateid.outputs.date }}"
