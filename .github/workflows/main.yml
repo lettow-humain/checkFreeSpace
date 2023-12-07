@@ -48,12 +48,13 @@ jobs:
         run: |
           ARTIFACT_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
-            | jq -r '.artifacts[0].id')
+            | jq -r '.artifacts[] | select(.name == "workspace") | .id')
           echo "Artifact ID is $ARTIFACT_ID"
         env:
           ARTIFACT_ID: ${{ steps.get_artifact_id.outputs.ARTIFACT_ID }}
 
       - name: Delete Artifact
+        if: ${{ steps.get_artifact_id.outputs.ARTIFACT_ID != null }}
         run: |
           curl -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/${{ env.ARTIFACT_ID }}"
