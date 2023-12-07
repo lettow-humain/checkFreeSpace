@@ -34,3 +34,16 @@ jobs:
 
       - name: Display File
         run: cat my-file.txt
+
+  cleanup:
+    needs: job1
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete Artifact
+        uses: actions/delete-artifact@v2
+        with:
+          name: workspace
+
+      - name: Echo LS
+        run: ls -halt
