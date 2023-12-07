@@ -1,26 +1,36 @@
-name: Check if I can free space
+name: Test Workspace
 on: push
 
 jobs:
-  build:
-    name: Foo
+  job1:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.13.2]
     steps:
-    - uses: actions/checkout@v3
-      with:
-          lfs: "true"
-          submodules: "recursive"   
-    - name: checkout with git lfs
-      run: git lfs checkout
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Get current date
-      id: dateid
-      run: echo "date=$(date +'%Y_%m_%d_%H_%M')" >> $GITHUB_OUTPUT
-    - name: Print stored date
-      run: echo "Stored date ${{ steps.dateid.outputs.date }}"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create File
+        run: echo "This is a file" > my-file.txt
+
+      - name: Echo LS
+        run: ls -halt
+
+      - name: Persist Workspace
+        uses: actions/upload-artifact@v3
+        with:
+          name: workspace
+          path: /
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore Workspace
+        uses: actions/download-artifact@v3
+        with:
+          name: workspace
+
+      - name: Echo LS
+        run: ls -halt
+
+      - name: Display File
+        run: cat my-file.txt
