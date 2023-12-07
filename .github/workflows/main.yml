@@ -43,15 +43,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Get Artifact ID
-        id: get_artifact_id
+      - name: Get Artifact Info
+        id: get_artifact_info
         run: |
-          ARTIFACT_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
-            | jq -r '.artifacts[] | select(.name == "workspace") | .id')
+          ARTIFACTS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
+          echo "Artifacts info: $ARTIFACTS"
+          ARTIFACT_NAME="your-artifact-name"
+          ARTIFACT_ID=$(echo "$ARTIFACTS" | jq -r --arg name "$ARTIFACT_NAME" '.artifacts[] | select(.name == $name) | .id')
           echo "Artifact ID is $ARTIFACT_ID"
         env:
-          ARTIFACT_ID: ${{ steps.get_artifact_id.outputs.ARTIFACT_ID }}
+          ARTIFACT_ID: ${{ steps.get_artifact_info.outputs.ARTIFACT_ID }}
 
       - name: Delete Artifact
         if: ${{ steps.get_artifact_id.outputs.ARTIFACT_ID != null }}
