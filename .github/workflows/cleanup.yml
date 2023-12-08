@@ -1,8 +1,9 @@
 name: Test Workspace
-workflow_run:
-  workflows: ["Test Workspace"]
-  types:
-    - completed
+on:
+  workflow_run:
+    workflows: ["Test Workspace"]
+    types:
+      - completed
 
 jobs:
   CLEANUP:
