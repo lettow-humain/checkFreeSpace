@@ -35,18 +35,6 @@ jobs:
       - name: Display File
         run: cat my-file.txt
 
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: workspace
-
-      - name: Echo LS
-        run: ls -halt
-
-      - name: Restore Workspace
-        uses: actions/download-artifact@v3
-        with:
-          name: workspace
-
   job3:
     if: ${{ always() }}
     needs: [job1, job2]
