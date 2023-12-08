@@ -46,3 +46,28 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: workspace
+
+  job3:
+    if: ${{ always() }}
+    needs: [job1, job2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Artifacts
+        run: |
+          # Retrieve and delete artifacts using GitHub API
+          ARTIFACTS=$(curl -L \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \ 
+          "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts" \
+          | jq -r '.artifacts[].id')
+
+          echo $ARTIFACTS
+
+          for ARTIFACT_ID in $ARTIFACTS; do
+            curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/${ARTIFACT_ID}"
+          done
