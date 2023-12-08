@@ -34,3 +34,7 @@ jobs:
 
       - name: Display File
         run: cat my-file.txt
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: workspace
