@@ -34,12 +34,6 @@ jobs:
 
       - name: Display File
         run: cat my-file.txt
-
-  job3:
-    if: ${{ always() }}
-    needs: [job1, job2]
-    runs-on: ubuntu-latest
-    steps:
       - name: Delete Artifacts
         run: |
           # Retrieve and delete artifacts using GitHub API
