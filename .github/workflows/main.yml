@@ -30,7 +30,12 @@ jobs:
           name: workspace
 
       - name: Echo LS
-        run: ls -halt
+        run: |
+          ls -halt
+          echo ${{ github }}
+          echo ${{ github.event }}
+          echo ${{ github.event.workflow_run }}
+          echo ${{ github.event.workflow_run.id }}
 
       - name: Display File
         run: cat my-file.txt
