@@ -1,4 +1,4 @@
-name: Test Workspace
+name: Test Cleanup
 on:
   workflow_run:
     workflows: ["Test Workspace"]
