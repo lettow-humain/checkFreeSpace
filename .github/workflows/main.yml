@@ -37,7 +37,7 @@ jobs:
 
       - uses: geekyeggo/delete-artifact@v2
         with:
-          name: my-artifact
+          name: workspace
 
       - name: Echo LS
         run: ls -halt
